@@ -23,8 +23,23 @@ router.get("/", async (req, res) => {
     });
 });
 router.get("/:id", (req, res) => {
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
+  // GET request with an id: respond with all data for given id
+  // Include data for associated product(s)
+  Tag.findByPk(req.params.id, {
+    include: [
+      {
+        model: Product,
+        attributes: ["id", "product_name", "price", "stock", "category_id"],
+        through: "ProductTag",
+      },
+    ],
+  })
+    .then((retrievedTag) => {
+      res.json(retrievedTag);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 router.post("/", (req, res) => {
