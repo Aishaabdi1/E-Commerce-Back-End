@@ -47,10 +47,18 @@ router.post('/', async (req, res) => {
 		});
 });
 
-
-router.put("/:id", (req, res) => {
-  // update a category by its `id` value
+// PUT request with an id: updates this category with the request body data
+router.put('/:id', async (req, res) => {
+  await Category.update(req.body, {
+		where: {
+			id: req.params.id,
+		},
+	})
+  .then(cat => Category.findByPk(req.params.id))
+  .then((updatedCategory) => res.status(200).json(updatedCategory))
+  .catch((err) => {res.json(err);});
 });
+
 
 router.delete("/:id", (req, res) => {
   // delete a category by its `id` value
