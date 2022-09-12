@@ -60,6 +60,7 @@ router.put("/:id", (req, res) => {
       tag_name: req.body.tag_name,
     },
     {
+      where: {
         id: req.params.id,
       },
     }
@@ -71,19 +72,20 @@ router.put("/:id", (req, res) => {
       res.json(err);
     });
 });
+
+// DELETE request with id: destroys the tag with this id, and all of its data.
 router.delete("/:id", (req, res) => {
-	// delete on tag by its `id` value
-	Tag.destroy({
-			where: {
-				id: req.params.id,
-			},
-		})
-		.then((qtyRemoved) => {
-			res.json(`${qtyRemoved} tag were removed from the database`);
-		})
-		.catch((err) => {
-			res.json(err);
-		});
+  Tag.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((qtyRemoved) => {
+      res.json(`${qtyRemoved} tag were removed from the database`);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 module.exports = router;
