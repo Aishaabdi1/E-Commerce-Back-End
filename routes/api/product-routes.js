@@ -129,10 +129,24 @@ router.put("/:id", (req, res) => {
 		});
 });
 
-
-
+// DELETE request with id: destroys the data for the product with this id.#
 router.delete("/:id", (req, res) => {
-  // delete one product by its `id` value
+	// delete one product by its `id` value
+	let deletedProduct = Product.findByPk(req.params.id);
+	Product.destroy({
+		where: {
+			id: req.params.id,
+		},
+	})
+	.then((product) => {
+		res.json(`${deletedProduct} was removed from the database`);
+	})
+	.catch((err) => {
+		res.json(err);
+	});
 });
+
+
+
 
 module.exports = router;
