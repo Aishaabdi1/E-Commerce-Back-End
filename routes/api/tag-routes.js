@@ -41,9 +41,17 @@ router.get("/:id", (req, res) => {
       res.json(err);
     });
 });
-
+// POST request: creates a new Tag with the request body data.
 router.post("/", (req, res) => {
-  // create a new tag
+  Tag.create({
+    tag_name: req.body.tag_name,
+  })
+    .then((tag) => {
+      res.json(tag);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 router.put("/:id", (req, res) => {
