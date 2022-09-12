@@ -5,6 +5,7 @@ const { Category, Product } = require("../../Develop/models");
 
 // GET request without id: retrieves all exisiting category
 // Also retrieves all associated products
+
 router.get("/", async (req, res) => {
   await Category.findAll({
     attributes: ["id", "category_name"],
@@ -18,6 +19,9 @@ router.get("/", async (req, res) => {
     res.json(categories);
   });
 });
+
+// GET request with an id: retrieves Category data with specific id
+// Also retrieves all associated products
 
 router.get("/:id", async (req, res) => {
   await Category.findByPk(req.params.id, {
@@ -38,6 +42,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST request: creates a new Category with the  request body data
+
 router.post("/", async (req, res) => {
   await Category.create(req.body)
     .then((newCategory) => res.status(200).json(newCategory))
