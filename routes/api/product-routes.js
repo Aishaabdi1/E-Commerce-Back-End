@@ -29,10 +29,28 @@ router.get("/", async (req, res) => {
     });
 });
 
-// get one product
+// GET request with id: retrieves data for product with this given id
+// Also retrieves the associated category, and all the associated tags
 router.get("/:id", (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+	Product.findByPk(req.params.id, {
+		include: [
+			{
+				model: Tag,
+				attributes: ["id", "tag_name"],
+				through: "ProductTag",
+			},
+			{
+				model: Category,
+				attributes: ["id", "category_name"],
+			},
+		],
+	})
+		.then((specificProduct) => {
+			res.json(specificProduct);
+		})
+		.catch((err) => {
+			res.json(err);
+		});
 });
 
 // create new product
