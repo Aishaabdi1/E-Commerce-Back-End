@@ -29,31 +29,32 @@ router.get("/", async (req, res) => {
     });
 });
 
-// GET request with id: retrieves data for product with this given id
+// GET request with id: retrieves data for product with this given id.
 // Also retrieves the associated category, and all the associated tags
 router.get("/:id", (req, res) => {
-	Product.findByPk(req.params.id, {
-		include: [
-			{
-				model: Tag,
-				attributes: ["id", "tag_name"],
-				through: "ProductTag",
-			},
-			{
-				model: Category,
-				attributes: ["id", "category_name"],
-			},
-		],
-	})
-		.then((specificProduct) => {
-			res.json(specificProduct);
-		})
-		.catch((err) => {
-			res.json(err);
-		});
+  Product.findByPk(req.params.id, {
+    include: [
+      {
+        model: Tag,
+        attributes: ["id", "tag_name"],
+        through: "ProductTag",
+      },
+      {
+        model: Category,
+        attributes: ["id", "category_name"],
+      },
+    ],
+  })
+    .then((specificProduct) => {
+      res.json(specificProduct);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
-// create new product
+// POST request: creates a product with the request body data.
+// Refactor this to async / await in future.
 router.post("/", (req, res) => {
   /* req.body should look like this...
     {
@@ -74,9 +75,10 @@ router.post("/", (req, res) => {
           };
         });
         return ProductTag.bulkCreate(productTagIdArr);
+      } else {
+        // if no product tags, just respond
+        res.status(200).json(product);
       }
-      // if no product tags, just respond
-      res.status(200).json(product);
     })
     .then((productTagIds) => res.status(200).json(productTagIds))
     .catch((err) => {
