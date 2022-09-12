@@ -4,6 +4,7 @@ const sequelize = require('../config/connection.js');
 
 class Category extends Model {}
 
+// define columns
 Category.init(
   {
     id:{
@@ -19,6 +20,10 @@ Category.init(
   },
   {
     sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'category',
   }
-)
+);
 module.exports = Category;
