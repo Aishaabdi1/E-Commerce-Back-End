@@ -1,5 +1,11 @@
 # E-Commerce-Back-End
 
+## Description
+
+This is the backend of an online store that sells clothing, sports equipment, and music. Express.js is used to build the server, and MySQL is used for the database. Sequelize is used to model the database's data and relationships. There are numerous ways to create new products, assign them to categories, and tag them with a variety of product tags to make sorting easier.
+
+## Walkthrough video
+
 - Create DB
 - Connect to DB using sequelize 
 - Seed data 
